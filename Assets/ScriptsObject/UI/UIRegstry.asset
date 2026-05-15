@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 319dcf0f2147f1f4180a740b24c49679, type: 3}
+  m_Name: UIRegstry
+  m_EditorClassIdentifier: Assembly-CSharp::UIRegistry
+  popupEntries:
+  - type: 0
+    prefab: {fileID: 4491930974894375555, guid: 7e6d0a21898c47d46b82872e50b4785d, type: 3}
+  - type: 2
+    prefab: {fileID: 2907814573130922018, guid: d5c003d33557ff84bbab86a5931d4bc9, type: 3}
+  - type: 3
+    prefab: {fileID: -4960125318536763544, guid: 77e5b8c5118f7c24f92bb3ea8234fa58, type: 3}
+  - type: 1
+    prefab: {fileID: 27732184146981230, guid: c92bd1ea57d617a4cbac5bf487158a6b, type: 3}
+  hudEntries:
+  - type: 0
+    prefab: {fileID: 1859839159879808705, guid: 942406875ce3b5f4695f0c958ec1c4ea, type: 3}
+  - type: 1
+    prefab: {fileID: 3041580017283539471, guid: 9e939bfba3da3d642be94726ffe9d362, type: 3}

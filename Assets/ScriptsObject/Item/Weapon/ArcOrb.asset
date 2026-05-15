@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0940fafdeee2448ac3ad7cfde1aa6f, type: 3}
+  m_Name: ArcOrb
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileWeaponData
+  itemName: ArcOrb
+  id: 1
+  icon: {fileID: -4499503099449193857, guid: 56b46988a92a1ed468e3c2f6daa64c56, type: 3}
+  weaponPrefab: {fileID: -3872142863702668221, guid: 8c48adf86d7d5dd4f889d6c3b71817f7, type: 3}
+  category: 1
+  levels:
+  - stats:
+      damage: 3
+      damageMultiplier: 0
+      attackInterval: 3
+      cooldownReduction: 0
+      critChance: 0
+      critDamage: 0
+      projectileCount: 1
+      projectileSpeed: 5
+      projectileSize: 0
+      pierce: 2
+      spreadAngle: 0
+      knockbackForce: 5
+      range: 0
+    decription: 
+  - stats:
+      damage: 3
+      damageMultiplier: 0
+      attackInterval: 3
+      cooldownReduction: 0
+      critChance: 0
+      critDamage: 0
+      projectileCount: 1
+      projectileSpeed: 5
+      projectileSize: 0
+      pierce: 2
+      spreadAngle: 0
+      knockbackForce: 5
+      range: 0
+    decription: 
+  - stats:
+      damage: 3
+      damageMultiplier: 0
+      attackInterval: 3
+      cooldownReduction: 0
+      critChance: 0
+      critDamage: 0
+      projectileCount: 1
+      projectileSpeed: 5
+      projectileSize: 0
+      pierce: 2
+      spreadAngle: 0
+      knockbackForce: 5
+      range: 0
+    decription: 
+  - stats:
+      damage: 3
+      damageMultiplier: 0
+      attackInterval: 3
+      cooldownReduction: 0
+      critChance: 0
+      critDamage: 0
+      projectileCount: 1
+      projectileSpeed: 5
+      projectileSize: 0
+      pierce: 2
+      spreadAngle: 0
+      knockbackForce: 5
+      range: 0
+    decription: 
+  - stats:
+      damage: 3
+      damageMultiplier: 0
+      attackInterval: 3
+      cooldownReduction: 0
+      critChance: 0
+      critDamage: 0
+      projectileCount: 1
+      projectileSpeed: 5
+      projectileSize: 0
+      pierce: 2
+      spreadAngle: 0
+      knockbackForce: 5
+      range: 0
+    decription: 
+  projectilePrefab: {fileID: 3792671032864704809, guid: c5fadcbfde8ba404a931b25dda456131, type: 3}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af10f21d6e89d148ac3dc116ade45cf, type: 3}
+  m_Name: MapThemeDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::MapThemeDatabase
+  map:
+  - {fileID: 11400000, guid: fad4402df5574d245b20d6425fa80b3e, type: 2}
+  - {fileID: 11400000, guid: 253e3e91f35a76f4e8a9661517bdf7c7, type: 2}
+  - {fileID: 11400000, guid: 173408aa171a7404a95cb6e689913271, type: 2}
+  - {fileID: 11400000, guid: 1aff4b1697f42d448a842a648220b15d, type: 2}
+  - {fileID: 11400000, guid: 2d5492521bd692e40801cf67f78997ba, type: 2}
+  - {fileID: 11400000, guid: 49fe9480fc5303e4282a9684d860e6e0, type: 2}

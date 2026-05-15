@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00d4e9bd184a0ae46b1f50791c3a974b, type: 3}
+  m_Name: stage 2
+  m_EditorClassIdentifier: Assembly-CSharp::MapThemeData
+  id: 1
+  thumnail: {fileID: -1122733156241053136, guid: 984e343f2d98c24478462d45004883a6, type: 3}
+  groundSprite: {fileID: 7482667652216324306, guid: c115995158d8d4c4ca31e4fe659de873, type: 3}
+  stageNumber: stage 2
+  desc: 'stage 2 stage 2 stage 2 stage 2 stage 2 stage 2 stage 2  '
+  decorations:
+  - prefab: {fileID: 5512612921200961541, guid: 009eab23288dc2c4ba8ce7db3596d452, type: 3}
+    spawnChance: 1
+    minCount: 3
+    maxCount: 8
+  obstacles:
+  - prefab: {fileID: 4247562134657650142, guid: 99dc620acdbdb9c4fa6259f4b527fb57, type: 3}
+    spawnChance: 1
+    minCount: 1
+    maxCount: 3

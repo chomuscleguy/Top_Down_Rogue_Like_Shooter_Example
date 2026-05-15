@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3f2feaac54af494b9bda61b2491a029, type: 3}
+  m_Name: UpgradeDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDatabase
+  upgrades:
+  - {fileID: 11400000, guid: 1499a32f40f997a49a9db59c1db3d1b3, type: 2}
+  - {fileID: 11400000, guid: a8793ccc5fb91b64e9bdfc13f7ec15a5, type: 2}
+  - {fileID: 11400000, guid: 73b5faded7e6f714a92207a566acacf9, type: 2}
+  - {fileID: 11400000, guid: 1719fcf8345465848b7cecc847f56064, type: 2}
+  - {fileID: 11400000, guid: 21af3f7a3cf554040b1d1f2bfdb82f65, type: 2}
+  - {fileID: 11400000, guid: 749d250a05c47b84f845eca81dd12aee, type: 2}
+  - {fileID: 11400000, guid: fdcbedf5007193644bf485def37e555b, type: 2}
+  - {fileID: 11400000, guid: 9a510aa0b327aad4eb9f96772c62f050, type: 2}
+  - {fileID: 11400000, guid: e85b4a2b2d62af5478a0104e64784621, type: 2}
+  - {fileID: 11400000, guid: 03c58ba031ec11846b3203bef87fdef9, type: 2}
+  - {fileID: 11400000, guid: 162da7e3a95b92d42a8eaa60559e80db, type: 2}
+  - {fileID: 11400000, guid: 1ab9c27c4ba28ff45a0c5b15c33b90e7, type: 2}
+  - {fileID: 11400000, guid: 37d71e850a58d4849817b3ef548cac39, type: 2}
+  - {fileID: 11400000, guid: 6678d7d66b13b6c4d88725a23e74c196, type: 2}
+  - {fileID: 11400000, guid: 24d5094b76b98c34ca1eb97e373a55de, type: 2}
