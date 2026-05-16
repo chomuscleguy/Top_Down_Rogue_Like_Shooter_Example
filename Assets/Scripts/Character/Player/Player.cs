@@ -6,6 +6,7 @@ public class Player : MonoBehaviour, ICombatStatProvider, IMovementStatProvider,
     public Experience Experience { get; private set; }
     public PlayerMovement Movement { get; private set; }
     public WeaponController Weapon { get; private set; }
+    public TargetScanner Scan { get; private set; }
     public CircleCollider2D Collider { get; private set; }
     public RunData Run { get; private set; }
 
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour, ICombatStatProvider, IMovementStatProvider,
         Weapon = GetComponent<WeaponController>();
         Collider = GetComponent<CircleCollider2D>();
         Experience = GetComponent<Experience>();
+        Scan = GetComponent<TargetScanner>();
 
         inputHandler = GetComponent<PlayerInputHandler>();
 
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour, ICombatStatProvider, IMovementStatProvider,
         Health.Init(Run.FinalStats.survival.maxHP);
         Movement.Init(Collider.radius);
         Weapon.Init(Run);
+        Scan.Init();
         Experience.Init(Run);
     }
 

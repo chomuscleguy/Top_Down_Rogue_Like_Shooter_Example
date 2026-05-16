@@ -29,6 +29,7 @@ public class SceneLoader : MonoBehaviour
             case GameState.Playing:
                 pendingHUD = HUDType.Game;
                 SceneManager.LoadScene("GameScene");
+
                 break;
         }
     }

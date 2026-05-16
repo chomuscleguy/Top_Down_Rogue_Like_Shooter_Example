@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 [CreateAssetMenu(menuName = "Projectile/Damage")]
 public class DamageBehaviour : ProjectileBehaviour
@@ -11,11 +10,13 @@ public class DamageBehaviour : ProjectileBehaviour
         if (damageable == null)
             return;
 
-        var stats = p.GetStats();
+        WeaponStats stats = p.Stats;
 
         float damage = stats.damage;
 
-        if (UnityEngine.Random.value < stats.critChance)
+        bool critical = Random.value < stats.critChance;
+
+        if (critical)
             damage *= stats.critDamage;
 
         damageable.TakeDamage(damage);

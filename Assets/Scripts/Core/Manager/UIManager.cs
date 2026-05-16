@@ -47,12 +47,15 @@ public class UIManager : MonoBehaviour, IManager
     public void ShowHUD(HUDType type)
     {
         ClearUI();
-        factory.CreateHUD(type, hudRoot);
+
+        var hud = factory.CreateHUD<BaseHUD>(type, hudRoot);
+
+        hud.Bind();
     }
 
     public void CloseTopPopup()
     {
-        if (popupStack.Count == 0) 
+        if (popupStack.Count == 0)
             return;
 
         var popup = popupStack.Pop();

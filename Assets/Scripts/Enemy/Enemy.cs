@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour, IKnockbackable, ICombatStatProvider, IMoveme
 
     public void Tick(float dt)
     {
-        
+
     }
 
     private void ApplyStats()
@@ -61,6 +61,8 @@ public class Enemy : MonoBehaviour, IKnockbackable, ICombatStatProvider, IMoveme
 
     private void HandleDeath(Health health)
     {
+        Core.Instance.Game.Run.AddKill();
+
         Core.Instance.Drop.SpawnExp(data.xp, transform.position);
 
         spawner.OnEnemyDeath();

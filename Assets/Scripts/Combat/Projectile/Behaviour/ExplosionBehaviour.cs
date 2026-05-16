@@ -3,26 +3,31 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Projectile/Explosion")]
 public class ExplosionBehaviour : ProjectileBehaviour
 {
-    public float radius = 2f;
-    public float damageMultiplier = 0.5f;
+    [SerializeField]
+    private float radius = 2f;
+
+    [SerializeField]
+    private float damageMultiplier = 0.5f;
 
     public override void OnExpire(Projectile p)
     {
-        var stats = p.GetStats();
+        Collider2D[] hits =
+            Physics2D.OverlapCircleAll(
+                p.transform.position,
+                radius);
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(
-            p.transform.position,
-            radius
-        );
+        float damage =
+            p.Stats.damage * damageMultiplier;
 
-        foreach (var h in hits)
+        foreach (var hit in hits)
         {
-            var dmg = h.GetComponent<IDamageable>();
-            if (dmg == null) continue;
+            if (!hit.TryGetComponent<IDamageable>(
+                out var damageable))
+            {
+                continue;
+            }
 
-            float damage = stats.damage * damageMultiplier;
-            dmg.TakeDamage(damage);
+            damageable.TakeDamage(damage);
         }
     }
 }
-

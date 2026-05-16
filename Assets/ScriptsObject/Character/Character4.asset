@@ -40,4 +40,4 @@ MonoBehaviour:
       luck: 0
       expGain: 0
       goldGain: 0
-  baseWeapon: {fileID: 11400000, guid: fb54c601b6bb5784b81fbdffeab854d3, type: 2}
+  baseWeapon: {fileID: 11400000, guid: 8789a622aba6eb642b079ff488d4b561, type: 2}

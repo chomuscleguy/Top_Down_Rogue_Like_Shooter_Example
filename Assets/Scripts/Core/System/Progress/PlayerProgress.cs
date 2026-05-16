@@ -3,40 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class PlayerProgress
+public partial class PlayerProgress
 {
-    [Serializable]
-    public struct UpgradeLevel
-    {
-        public UpgradeData data;
-        public int level;
-    }
-
     public event Action OnChanged;
+    public event Action<int> OnGoldChanged;
 
+    [Header("Currency")]
+    [SerializeField]
+    private int gold;
+
+    [Header("Upgrade")]
     [SerializeField]
     private List<UpgradeLevel> serializedLevels = new();
 
-    private Dictionary<UpgradeData, int> runtimeLevels = new();
+    private readonly Dictionary<UpgradeData, int> runtimeLevels = new();
 
+    public int Gold => gold;
 
-    // =========================
-    // 로드
-    // =========================
     public void OnAfterLoad()
     {
         runtimeLevels.Clear();
 
         foreach (var s in serializedLevels)
         {
-            if (s.data != null)
-                runtimeLevels[s.data] = s.level;
+            if (s.data == null)
+                continue;
+
+            runtimeLevels[s.data] = s.level;
         }
     }
 
-    // =========================
-    // 저장
-    // =========================
     public void OnBeforeSave()
     {
         serializedLevels.Clear();
@@ -54,19 +50,50 @@ public class PlayerProgress
         }
     }
 
+    public void AddGold(int amount)
+    {
+        gold += amount;
+
+        OnGoldChanged?.Invoke(gold);
+        OnChanged?.Invoke();
+    }
+
+    public bool SpendGold(int amount)
+    {
+        if (gold < amount)
+            return false;
+
+        gold -= amount;
+
+        OnGoldChanged?.Invoke(gold);
+        OnChanged?.Invoke();
+
+        return true;
+    }
 
     public int GetLevel(UpgradeData data)
     {
         return runtimeLevels.TryGetValue(data, out var lv) ? lv : 0;
     }
 
-    public void AddLevel(UpgradeData data)
+    public bool AddLevel(UpgradeData data)
     {
+        if (data == null)
+            return false;
+
         if (!runtimeLevels.ContainsKey(data))
             runtimeLevels[data] = 0;
 
+        int currentLevel = runtimeLevels[data];
+
+        if (currentLevel >= data.levels.Count)
+            return false;
+
         runtimeLevels[data]++;
+
         OnChanged?.Invoke();
+
+        return true;
     }
 
     public int CalculateTotalSpent(List<UpgradeData> upgrades)
@@ -79,21 +106,21 @@ public class PlayerProgress
 
             for (int i = 0; i < level; i++)
             {
-                total += upgrade.levels[i].cost; // 🔥 변경
+                total += upgrade.levels[i].cost;
             }
         }
 
         return total;
     }
 
-    // =========================
-    // 초기화
-    // =========================
     public void ResetAll()
     {
+        gold = 0;
+
         runtimeLevels.Clear();
         serializedLevels.Clear();
 
+        OnGoldChanged?.Invoke(gold);
         OnChanged?.Invoke();
     }
 }

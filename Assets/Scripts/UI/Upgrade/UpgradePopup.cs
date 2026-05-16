@@ -9,13 +9,7 @@ public class UpgradePopup : BaseListUI<UpgradeData, UpgradeSlot>
 
     private UpgradeData currentData;
 
-    private PlayerProgress progress => Core.Instance.Game.SaveData.progress;
-
-    private int Gold
-    {
-        get => Core.Instance.Game.SaveData.gold;
-        set => Core.Instance.Game.SaveData.gold = value;
-    }
+    private PlayerProgress progress => Core.Instance.Game.Progress;
 
     private void Awake()
     {
@@ -44,10 +38,9 @@ public class UpgradePopup : BaseListUI<UpgradeData, UpgradeSlot>
 
         int cost = data.GetCost(level);
 
-        if (Gold < cost)
+        if (!progress.SpendGold(cost))
             return;
 
-        Core.Instance.Game.SpendGold(cost);
         progress.AddLevel(data);
 
         Core.Instance.Save.Save(Core.Instance.Game.SaveData);
@@ -60,7 +53,7 @@ public class UpgradePopup : BaseListUI<UpgradeData, UpgradeSlot>
     {
         int refund = CalculateTotalSpent();
 
-        Core.Instance.Game.AddGold(refund);
+        progress.AddGold(refund);
 
         progress.ResetAll();
 
@@ -73,6 +66,7 @@ public class UpgradePopup : BaseListUI<UpgradeData, UpgradeSlot>
     private void OnSelectUpgrade(UpgradeData data)
     {
         currentData = data;
+
         ShowDetail(data);
     }
 
@@ -89,6 +83,7 @@ public class UpgradePopup : BaseListUI<UpgradeData, UpgradeSlot>
         foreach (var slot in slots)
         {
             int level = progress.GetLevel(slot.Data);
+
             slot.UpdateLevelUI(level);
         }
     }
@@ -96,21 +91,12 @@ public class UpgradePopup : BaseListUI<UpgradeData, UpgradeSlot>
     private void ShowDetail(UpgradeData data)
     {
         int level = progress.GetLevel(data);
+
         detailPanel.Show(data, level, OnClickUpgrade);
     }
 
     private int CalculateTotalSpent()
     {
-        int total = 0;
-
-        foreach (var upgrade in database.upgrades)
-        {
-            int level = progress.GetLevel(upgrade);
-
-            for (int i = 0; i < level; i++)
-                total += upgrade.GetCost(i);
-        }
-
-        return total;
+        return progress.CalculateTotalSpent(database.upgrades);
     }
 }

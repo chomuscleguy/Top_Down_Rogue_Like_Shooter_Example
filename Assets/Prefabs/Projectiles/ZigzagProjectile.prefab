@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 7240776983830164256}
   - component: {fileID: 3792671032864704809}
   m_Layer: 8
-  m_Name: BounceProjectile
+  m_Name: ZigzagProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

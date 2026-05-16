@@ -240,9 +240,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3099621063811904096}
-  - component: {fileID: 4337003824187130246}
+  - component: {fileID: 1344491952683429776}
   - component: {fileID: 7000765651185060274}
   - component: {fileID: 2280716694870948547}
+  - component: {fileID: 4337003824187130246}
   m_Layer: 5
   m_Name: LobbyUI
   m_TagString: Untagged
@@ -272,14 +273,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &4337003824187130246
-CanvasRenderer:
+--- !u!114 &1344491952683429776
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859839159879808705}
-  m_CullTransparentMesh: 1
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf0790aa551947e48b0385c2ce8e8147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyHUD
+  goldText: {fileID: 5069648814438005156}
 --- !u!114 &7000765651185060274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,6 +342,14 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!222 &4337003824187130246
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859839159879808705}
+  m_CullTransparentMesh: 1
 --- !u!1 &2033465343004049108
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,10 +768,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8262305101907168161}
+  - component: {fileID: 7244546898403370553}
   - component: {fileID: 699765033191594845}
   - component: {fileID: 3160840234396731307}
   - component: {fileID: 8931013868841282779}
-  - component: {fileID: 7244546898403370553}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -785,6 +799,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7244546898403370553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2673933993628006291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 388d5bbe3853f4d40bba3346a3a2a5c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!222 &699765033191594845
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -879,18 +905,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7244546898403370553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2673933993628006291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 388d5bbe3853f4d40bba3346a3a2a5c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1 &4185172649302809564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2139,7 +2153,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7624984049939298625}
-  - component: {fileID: 6401149160491118515}
   - component: {fileID: 5439096705327843645}
   - component: {fileID: 4589052622861813306}
   - component: {fileID: 7368261920917731193}
@@ -2171,19 +2184,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6401149160491118515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6590505679231363065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2bc0a922403a1e418c1c75c894fefbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GoldUI
-  goldText: {fileID: 5069648814438005156}
 --- !u!222 &5439096705327843645
 CanvasRenderer:
   m_ObjectHideFlags: 0

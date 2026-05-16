@@ -7,7 +7,9 @@ public class Projectile : MonoBehaviour, ITickable
     [SerializeField]
     private List<ProjectileBehaviour> behaviours = new();
 
+    private Vector2 spawnPosition;
     private Vector2 direction;
+
     private WeaponStats stats;
     private ObjectPool<Projectile> pool;
 
@@ -15,27 +17,62 @@ public class Projectile : MonoBehaviour, ITickable
     private const float maxLife = 5f;
 
     private bool isExpired;
+    private bool hasTurned;
 
     private int remainPierce;
 
     public Transform Target { get; set; }
 
-    public void Init(Vector2 dir, WeaponStats stats, ObjectPool<Projectile> pool)
+    // =========================
+    // Properties
+    // =========================
+
+    public Vector2 Direction => direction;
+
+    public Vector2 SpawnPosition => spawnPosition;
+
+    public float Speed => stats.projectileSpeed;
+
+    public WeaponStats Stats => stats;
+
+    public bool HasTurned
     {
-        direction = dir;
+        get => hasTurned;
+        set => hasTurned = value;
+    }
+
+    // =========================
+    // Init
+    // =========================
+
+    public void Init(
+        Vector2 dir,
+        WeaponStats stats,
+        ObjectPool<Projectile> pool)
+    {
+        spawnPosition = transform.position;
+
+        direction = dir.normalized;
+
         this.stats = stats;
         this.pool = pool;
 
         remainPierce = stats.pierce;
 
         lifeTimer = 0f;
+
         isExpired = false;
+        hasTurned = false;
 
         Core.Instance.Tick.Register(this);
 
         foreach (var b in behaviours)
             b.OnSpawn(this);
     }
+
+    // =========================
+    // Tick
+    // =========================
 
     public void Tick(float dt)
     {
@@ -45,49 +82,80 @@ public class Projectile : MonoBehaviour, ITickable
             return;
         }
 
+        foreach (var b in behaviours)
+            b.OnUpdate(this, dt);
+
         Move(dt);
+
         UpdateLife(dt);
     }
 
+    // =========================
+    // Move
+    // =========================
+
     private void Move(float dt)
     {
-        transform.position += (Vector3)(direction * stats.projectileSpeed * dt);
+        transform.position +=
+            (Vector3)(direction * stats.projectileSpeed * dt);
     }
+
+    // =========================
+    // Life
+    // =========================
 
     private void UpdateLife(float dt)
     {
         lifeTimer += dt;
 
         if (lifeTimer >= maxLife)
-            Expire();
+            RequestExpire();
     }
+
+    // =========================
+    // Collision
+    // =========================
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Enemy"))
             return;
 
-        bool critical = Random.value < stats.critChance;
-
-        HitContext hit = Core.Instance.Combat.CreateHit(gameObject, other.gameObject, stats.damage, direction, critical);
-
-        Core.Instance.Combat.ProcessHit(hit);
+        foreach (var b in behaviours)
+            b.OnHit(this, other);
 
         HandlePierce();
     }
 
     private void HandlePierce()
     {
+        // -1 = infinite pierce
+        if (remainPierce < 0)
+            return;
+
         remainPierce--;
 
         if (remainPierce < 0)
             RequestExpire();
     }
 
+    // =========================
+    // Public
+    // =========================
+
+    public void SetDirection(Vector2 dir)
+    {
+        direction = dir.normalized;
+    }
+
     public void RequestExpire()
     {
         isExpired = true;
     }
+
+    // =========================
+    // Expire
+    // =========================
 
     private void Expire()
     {
@@ -99,8 +167,9 @@ public class Projectile : MonoBehaviour, ITickable
         pool.Return(this);
     }
 
-    public WeaponStats GetStats() => stats;
-    public void SetDirection(Vector2 dir) => direction = dir;
-    public int GetRemainPierce() => remainPierce;
-    public void ConsumePierce() => remainPierce--;
+    private void OnDisable()
+    {
+        if (Core.Instance != null)
+            Core.Instance.Tick.Unregister(this);
+    }
 }

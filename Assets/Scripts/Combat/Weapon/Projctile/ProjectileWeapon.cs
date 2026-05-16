@@ -47,7 +47,9 @@ public class ProjectileWeapon : Weapon
 
     private void FireOnce()
     {
-        Transform target = Scanner.Scanning();
+        Transform target = null;
+
+        target = ProjectileData.targetingMode == TargetingMode.Closest ? Scanner.GetClosestTarget() : Scanner.GetRandomTarget();
 
         if (target == null)
             return;
@@ -72,8 +74,7 @@ public class ProjectileWeapon : Weapon
 
         if (RuntimeStat.spreadAngle <= 1f)
         {
-            Vector2 side =
-                Vector2.Perpendicular(dir).normalized;
+            Vector2 side = Vector2.Perpendicular(dir).normalized;
 
             float randomOffset = Random.Range(-0.2f, 0.2f);
 

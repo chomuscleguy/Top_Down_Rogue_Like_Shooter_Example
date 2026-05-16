@@ -16,19 +16,15 @@ public class UIFactory
 
         var instance = GameObject.Instantiate(prefab, parent);
 
-        return instance as T;
+        return instance.GetComponent<T>();
     }
 
-    public BasePopup CreatePopup(UIType type, Transform parent)
-    {
-        var prefab = registry.GetPopup(type);
-
-        return GameObject.Instantiate(prefab, parent);
-    }
-
-    public GameObject CreateHUD(HUDType type, Transform parent)
+    public T CreateHUD<T>(HUDType type, Transform parent) where T : BaseHUD
     {
         var prefab = registry.GetHUD(type);
-        return GameObject.Instantiate(prefab, parent);
+
+        var instance = GameObject.Instantiate(prefab, parent);
+
+        return instance.GetComponent<T>();
     }
 }

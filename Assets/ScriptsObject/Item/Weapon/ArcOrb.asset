@@ -28,7 +28,7 @@ MonoBehaviour:
       projectileCount: 1
       projectileSpeed: 5
       projectileSize: 0
-      pierce: 2
+      pierce: -1
       spreadAngle: 0
       knockbackForce: 5
       range: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
       projectileCount: 1
       projectileSpeed: 5
       projectileSize: 0
-      pierce: 2
+      pierce: -1
       spreadAngle: 0
       knockbackForce: 5
       range: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
       projectileCount: 1
       projectileSpeed: 5
       projectileSize: 0
-      pierce: 2
+      pierce: -1
       spreadAngle: 0
       knockbackForce: 5
       range: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
       projectileCount: 1
       projectileSpeed: 5
       projectileSize: 0
-      pierce: 2
+      pierce: -1
       spreadAngle: 0
       knockbackForce: 5
       range: 0
@@ -88,9 +88,10 @@ MonoBehaviour:
       projectileCount: 1
       projectileSpeed: 5
       projectileSize: 0
-      pierce: 2
+      pierce: -1
       spreadAngle: 0
       knockbackForce: 5
       range: 0
     decription: 
+  targetingMode: 1
   projectilePrefab: {fileID: 3792671032864704809, guid: c5fadcbfde8ba404a931b25dda456131, type: 3}

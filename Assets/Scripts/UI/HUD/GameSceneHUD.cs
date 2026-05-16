@@ -1,8 +1,7 @@
-using System;
 using TMPro;
 using UnityEngine;
 
-public class GameSceneHUD : MonoBehaviour
+public class GameSceneHUD : BaseHUD
 {
     [SerializeField] private TextMeshProUGUI killText;
     [SerializeField] private TextMeshProUGUI goldText;
@@ -10,9 +9,9 @@ public class GameSceneHUD : MonoBehaviour
 
     private RunData run;
 
-    public void Init(RunData runData)
+    public override void Bind()
     {
-        run = runData;
+        run = Core.Instance.Game.Run;
 
         run.OnKillChanged += UpdateKill;
         run.OnGoldChanged += UpdateGold;
@@ -20,6 +19,7 @@ public class GameSceneHUD : MonoBehaviour
 
         UpdateKill(run.KillCount);
         UpdateGold(run.Gold);
+        UpdateTime(run.PlayTime);
     }
 
     private void UpdateKill(int kill)
@@ -29,7 +29,7 @@ public class GameSceneHUD : MonoBehaviour
 
     private void UpdateGold(int gold)
     {
-        goldText.text = $"{gold}";
+        goldText.text = gold.ToString();
     }
 
     private void UpdateTime(float time)
@@ -42,12 +42,11 @@ public class GameSceneHUD : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (run == null) return;
+        if (run == null)
+            return;
 
         run.OnKillChanged -= UpdateKill;
         run.OnGoldChanged -= UpdateGold;
         run.OnTimeChanged -= UpdateTime;
     }
-
-    
 }

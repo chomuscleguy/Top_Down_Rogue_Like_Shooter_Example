@@ -54,7 +54,6 @@ public class Health : MonoBehaviour, IDamageable
         OnDamageTaken?.Invoke(damage);
         NotifyHealthChanged();
 
-        Debug.Log($"현재 체력 : {currentHP}");
         if (currentHP <= 0f)
             Die();
     }

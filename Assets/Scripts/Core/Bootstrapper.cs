@@ -3,21 +3,16 @@ using UnityEngine;
 public class Bootstrapper : MonoBehaviour
 {
     [Header("Prefabs")]
-    [SerializeField]
-    private Player playerPrefab;
+    [SerializeField] private Player playerPrefab;
 
-    [SerializeField]
-    private EnemySpawner enemySpawnerPrefab;
+    [SerializeField] private EnemySpawner enemySpawnerPrefab;
 
-    [SerializeField]
-    private InfiniteMap infiniteMapPrefab;
+    [SerializeField] private InfiniteMap infiniteMapPrefab;
 
     [Header("Scene")]
-    [SerializeField]
-    private CameraFollow cameraFollow;
+    [SerializeField] private CameraFollow cameraFollow;
 
-    [SerializeField]
-    private GameFlowController gameFlow;
+    [SerializeField] private GameFlowController gameFlow;
 
     private Player playerInstance;
 

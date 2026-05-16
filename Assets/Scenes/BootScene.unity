@@ -1620,8 +1620,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1721534818}
   - component: {fileID: 1721534820}
-  - component: {fileID: 1721534819}
   - component: {fileID: 1721534821}
+  - component: {fileID: 1721534819}
   - component: {fileID: 1721534822}
   m_Layer: 5
   m_Name: LodingUI
