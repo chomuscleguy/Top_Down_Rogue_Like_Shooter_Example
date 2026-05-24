@@ -587,6 +587,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6973491323689287915}
   - component: {fileID: 6753473539150640221}
+  - component: {fileID: 5677399990435836744}
   m_Layer: 5
   m_Name: Contents
   m_TagString: Untagged
@@ -639,6 +640,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &5677399990435836744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494985202532510889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecfe755c1f6240745bbb5bcb22038dc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelUpList
+  content: {fileID: 0}
+  slotPrefab: {fileID: 0}
 --- !u!1 &4661262958595783410
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,8 +961,9 @@ GameObject:
   - component: {fileID: 5352322256688049017}
   - component: {fileID: 7239498180985373316}
   - component: {fileID: 5019967856454515908}
+  - component: {fileID: 8690206465274138321}
   m_Layer: 5
-  m_Name: Board
+  m_Name: List
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1038,6 +1054,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8690206465274138321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6007478070207921273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecfe755c1f6240745bbb5bcb22038dc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelUpList
+  content: {fileID: 6973491323689287915}
+  slotPrefab: {fileID: 6680271299937993360, guid: 521905d43321295459c240c4b6547add, type: 3}
 --- !u!1 &6097794314935037442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,9 +1251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5880f2fa2d2d12342b7ddab47618d35a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpUI
-  content: {fileID: 6973491323689287915}
-  slotPrefab: {fileID: 6680271299937993360, guid: 521905d43321295459c240c4b6547add, type: 3}
-  database: {fileID: 11400000, guid: bb1ad4d61e9c1e84a940c32089a5b9e6, type: 2}
+  list: {fileID: 8690206465274138321}
 --- !u!114 &7581738158376407152
 MonoBehaviour:
   m_ObjectHideFlags: 0

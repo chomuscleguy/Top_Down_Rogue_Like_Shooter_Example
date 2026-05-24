@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GameSceneHUD : BaseHUD
 {
+    [SerializeField] private InventoryBoard inventoryBoard;
     [SerializeField] private TextMeshProUGUI killText;
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private TextMeshProUGUI timeText;
@@ -17,6 +18,7 @@ public class GameSceneHUD : BaseHUD
         run.OnGoldChanged += UpdateGold;
         run.OnTimeChanged += UpdateTime;
 
+        inventoryBoard.Init(run);
         UpdateKill(run.KillCount);
         UpdateGold(run.Gold);
         UpdateTime(run.PlayTime);

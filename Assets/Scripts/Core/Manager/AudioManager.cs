@@ -4,7 +4,6 @@ public class AudioManager : MonoBehaviour, IManager
 {
     public void Init()
     {
-        throw new System.NotImplementedException();
     }
 
     public void PlayerSFX(AudioClip clip)

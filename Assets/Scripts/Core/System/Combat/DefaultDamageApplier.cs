@@ -8,7 +8,7 @@ public class DefaultDamageApplier : MonoBehaviour, IDamageApplier
             return;
 
         if (hit.target.TryGetComponent(out IDamageable dmg))
-            dmg.TakeDamage(hit.finalDamage);
+            dmg.TakeDamage(hit.finalDamage, null);
 
         if (hit.target.TryGetComponent(out IKnockbackable kb))
             kb.ApplyKnockback(hit.hitDirection, 3f);

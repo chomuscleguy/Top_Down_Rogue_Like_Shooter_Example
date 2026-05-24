@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 public class TargetScanner : MonoBehaviour, ITickable
 {
     [Header("Scan Settings")]
-    [SerializeField] private float scanRange = 10f;
+    [SerializeField] private float scanRange = 30f;
     [SerializeField] private LayerMask targetLayer;
     [SerializeField] private float scanInterval = 0.1f;
 
@@ -14,7 +14,10 @@ public class TargetScanner : MonoBehaviour, ITickable
 
     private ContactFilter2D contactFilter;
     private Collider2D[] scanResults;
+
     private List<Transform> targets = new List<Transform>();
+    private readonly List<Transform> tempTargets = new();
+
     private float timer;
 
     public List<Transform> Targets => targets;
@@ -55,35 +58,73 @@ public class TargetScanner : MonoBehaviour, ITickable
         }
     }
 
-    public Transform GetClosestTarget()
+    public Transform GetClosestTarget(float range)
     {
         if (targets.Count == 0)
             return null;
 
         Transform closest = null;
-        float minDistance = float.MaxValue;
-        Vector2 currentPos = transform.position;
 
-        foreach (var target in targets)
+        float minDistanceSqr = float.MaxValue;
+
+        Vector2 origin = transform.position;
+
+        float rangeSqr = range * range;
+
+        foreach (Transform target in targets)
         {
-            if (target == null) continue;
-            float distance = Vector2.Distance(currentPos, target.position);
-            if (distance < minDistance)
+            if (target == null)
+                continue;
+
+            Vector2 diff = (Vector2)target.position - origin;
+
+            float distanceSqr = diff.sqrMagnitude;
+
+            if (distanceSqr > rangeSqr)
+                continue;
+
+            if (distanceSqr < minDistanceSqr)
             {
-                minDistance = distance;
+                minDistanceSqr = distanceSqr;
                 closest = target;
             }
         }
+
         return closest;
     }
 
-    public Transform GetRandomTarget()
+    public Transform GetRandomTarget(float range)
     {
-        if (targets.Count == 0)
+        tempTargets.Clear();
+
+        float rangeSqr = range * range;
+
+        foreach (Transform target in targets)
+        {
+            if (target == null)
+                continue;
+
+            Vector2 diff =
+                (Vector2)(target.position - transform.position);
+
+            if (diff.sqrMagnitude <= rangeSqr)
+            {
+                tempTargets.Add(target);
+            }
+        }
+
+        if (tempTargets.Count == 0)
             return null;
 
-        int randomIndex = Random.Range(0, targets.Count);
-        return targets[randomIndex];
+        int index =
+            Random.Range(0, tempTargets.Count);
+
+        return tempTargets[index];
+    }
+
+    private void OnDestroy()
+    {
+        Core.Instance.Tick.Unregister(this);
     }
 
 #if UNITY_EDITOR

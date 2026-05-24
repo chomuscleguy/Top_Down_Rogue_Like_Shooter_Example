@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98613e8bb5196bf4a80b5fbf8c98b1b1, type: 3}
   m_Name: PickupRadius
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
-  icon: {fileID: 5190374310413577522, guid: 7af066779bf383f49a887a70906a5c3c, type: 3}
+  id: 5012
   displayName: PickupRadius
+  description: 
+  icon: {fileID: 5190374310413577522, guid: 7af066779bf383f49a887a70906a5c3c, type: 3}
   levels:
   - stats:
       survival:
@@ -39,6 +41,7 @@ MonoBehaviour:
         luck: 0
         expGain: 0
         goldGain: 0
+        curse: 0
     cost: 0
   - stats:
       survival:
@@ -64,6 +67,7 @@ MonoBehaviour:
         luck: 0
         expGain: 0
         goldGain: 0
+        curse: 0
     cost: 0
   - stats:
       survival:
@@ -89,4 +93,5 @@ MonoBehaviour:
         luck: 0
         expGain: 0
         goldGain: 0
+        curse: 0
     cost: 0

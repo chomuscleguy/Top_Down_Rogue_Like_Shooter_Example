@@ -7,6 +7,7 @@ public struct UtilityStats
     public float luck;
     public float expGain;
     public float goldGain;
+    public float curse;
 
     public static UtilityStats operator +(UtilityStats a, UtilityStats b)
     {
@@ -15,7 +16,8 @@ public struct UtilityStats
             pickupRadius = a.pickupRadius + b.pickupRadius,
             luck = a.luck + b.luck,
             expGain = a.expGain + b.expGain,
-            goldGain = a.goldGain + b.goldGain
+            goldGain = a.goldGain + b.goldGain,
+            curse = a.curse + b.curse
         };
     }
 }

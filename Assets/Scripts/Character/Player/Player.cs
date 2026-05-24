@@ -1,13 +1,14 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour, ICombatStatProvider, IMovementStatProvider, ISurvivalStatProvider, IProjectileStatProvider, IUtilityStatProvider
+public class Player : MonoBehaviour, ICombatStatProvider, IMovementStatProvider, ISurvivalStatProvider, IProjectileStatProvider, IUtilityStatProvider, IWeaponStatProvider
 {
     public Health Health { get; private set; }
     public Experience Experience { get; private set; }
     public PlayerMovement Movement { get; private set; }
-    public WeaponController Weapon { get; private set; }
-    public TargetScanner Scan { get; private set; }
+    public WeaponSystem WeaponSystem { get; private set; }
+    public TargetScanner Scanner { get; private set; }
     public CircleCollider2D Collider { get; private set; }
+    public HitFlash hitFlash { get; private set; }
     public RunData Run { get; private set; }
 
     private PlayerInputHandler inputHandler;
@@ -15,17 +16,16 @@ public class Player : MonoBehaviour, ICombatStatProvider, IMovementStatProvider,
     [SerializeField]
     private PlayerUI playerUI;
 
-
     private void Awake()
     {
         Health = GetComponent<Health>();
-        Movement = GetComponent<PlayerMovement>();
-        Weapon = GetComponent<WeaponController>();
-        Collider = GetComponent<CircleCollider2D>();
         Experience = GetComponent<Experience>();
-        Scan = GetComponent<TargetScanner>();
-
+        Movement = GetComponent<PlayerMovement>();
+        Scanner = GetComponent<TargetScanner>();
+        Collider = GetComponent<CircleCollider2D>();
         inputHandler = GetComponent<PlayerInputHandler>();
+        WeaponSystem = GetComponent<WeaponSystem>();
+        hitFlash = GetComponent<HitFlash>();
 
         BindInput();
     }
@@ -34,52 +34,60 @@ public class Player : MonoBehaviour, ICombatStatProvider, IMovementStatProvider,
     {
         Run = run;
 
-        BindSystems();
-
-        RegisterTicks();
-
-        InitUI();
-
         InitComponents();
+        BindSystems();
+        RegisterTicks();
+        InitUI();
+        ApplyStats(Run.FinalStats);
+        run.BindWeaponSystem(WeaponSystem);
 
-        ApplyStats(run.FinalStats);
-
-        Core.Instance.Orb.SetPlayer(transform);
-    }
-
-    private void InitUI()
-    {
-        playerUI.Init(Run, Run);
+        Core.Instance.Grid.SetPlayer(transform);
+        Core.Instance.Pickup.SetPlayer(this);
     }
 
     private void InitComponents()
     {
         Health.Init(Run.FinalStats.survival.maxHP);
         Movement.Init(Collider.radius);
-        Weapon.Init(Run);
-        Scan.Init();
+        Scanner.Init();
         Experience.Init(Run);
+        WeaponSystem.Init(transform, Run, Scanner, statProvider: this);
+    }
+
+    private void InitUI()
+    {
+        playerUI.Init(Health, Run);
     }
 
     private void BindInput()
     {
-        if (inputHandler != null)
-        {
-            inputHandler.OnMove += Movement.SetInput;
-        }
+        if (inputHandler == null)
+            return;
+
+        inputHandler.OnMove += Movement.SetInput;
     }
 
     private void UnbindInput()
     {
-        if (inputHandler != null)
-        {
-            inputHandler.OnMove -= Movement.SetInput;
-        }
+        if (inputHandler == null)
+            return;
+
+        inputHandler.OnMove -= Movement.SetInput;
     }
 
     private void BindSystems()
     {
+        if (Run == null)
+            return;
+
+        Run.OnStatsChanged -= ApplyStats;
         Run.OnStatsChanged += ApplyStats;
+
+        Run.OnInventoryChanged -= RebuildWeapons;
+        Run.OnInventoryChanged += RebuildWeapons;
+
+        Health.OnDamageTaken -= handleHit;
+        Health.OnDamageTaken += handleHit;
     }
 
     private void UnbindSystems()
@@ -88,13 +96,15 @@ public class Player : MonoBehaviour, ICombatStatProvider, IMovementStatProvider,
             return;
 
         Run.OnStatsChanged -= ApplyStats;
+        Run.OnInventoryChanged -= RebuildWeapons;
+        Health.OnDamageTaken -= handleHit;
     }
 
     private void RegisterTicks()
     {
         Core.Instance.Tick.Register(Movement);
-
         Core.Instance.Tick.Register(Run);
+        Core.Instance.Tick.Register(WeaponSystem);
     }
 
     private void UnregisterTicks()
@@ -103,50 +113,45 @@ public class Player : MonoBehaviour, ICombatStatProvider, IMovementStatProvider,
             return;
 
         Core.Instance.Tick.Unregister(Movement);
-
         Core.Instance.Tick.Unregister(Run);
+        Core.Instance.Tick.Unregister(WeaponSystem);
     }
 
     private void ApplyStats(CharacterStats stats)
     {
         Movement.ApplyStats(stats.movement);
-
         Health.ApplyStats(stats.survival);
-
-        Weapon.ApplyStatsToAll(Run, Run.Items);
+        WeaponSystem.RebuildStats(this);
     }
 
-    public CombatStats GetCombatStats()
+    private void RebuildWeapons()
     {
-        return Run.FinalStats.combat;
+        foreach (var (item, level) in Run.Items.GetAllItems())
+        {
+            if (item is not WeaponData weaponData)
+                continue;
+
+            WeaponSystem.AddOrLevelUpWeapon(weaponData, level);
+        }
+
+        WeaponSystem.RebuildStats(this);
     }
 
-    public MovementStats GetMovementStats()
+    private void handleHit(float damage)
     {
-        return Run.FinalStats.movement;
+        hitFlash?.Play();
     }
 
-    public SurvivalStats GetSurvivalStats()
-    {
-        return Run.FinalStats.survival;
-    }
-
-    public ProjectileStats GetProjectileStats()
-    {
-        return Run.FinalStats.projectile;
-    }
-
-    public UtilityStats GetUtilityStats()
-    {
-        return Run.FinalStats.utility;
-    }
+    public CombatStats GetCombatStats() => Run.FinalStats.combat;
+    public MovementStats GetMovementStats() => Run.FinalStats.movement;
+    public SurvivalStats GetSurvivalStats() => Run.FinalStats.survival;
+    public ProjectileStats GetProjectileStats() => Run.FinalStats.projectile;
+    public UtilityStats GetUtilityStats() => Run.FinalStats.utility;
 
     private void OnDestroy()
     {
         UnbindInput();
-
         UnbindSystems();
-
         UnregisterTicks();
     }
 }

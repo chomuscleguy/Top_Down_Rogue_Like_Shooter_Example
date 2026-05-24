@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af2fa67fc16206b43a0c430e359cec73, type: 3}
   m_Name: ItemDatabase
   m_EditorClassIdentifier: Assembly-CSharp::ItemDatabase
-  items:
-  - {fileID: 11400000, guid: fb54c601b6bb5784b81fbdffeab854d3, type: 2}
+  datas:
   - {fileID: 11400000, guid: 8789a622aba6eb642b079ff488d4b561, type: 2}
+  - {fileID: 11400000, guid: fb54c601b6bb5784b81fbdffeab854d3, type: 2}
+  - {fileID: 11400000, guid: f77a2e623e4dc90438f185cee0192bd8, type: 2}
+  - {fileID: 11400000, guid: 32797807825611b48814182a1a77a257, type: 2}
+  - {fileID: 11400000, guid: a995268cff4fbe14a8e566b698de90c3, type: 2}
+  - {fileID: 11400000, guid: 44228d0bc93fa274a82b81098501323b, type: 2}
+  - {fileID: 11400000, guid: 7f752af21ac75854f9f11ce8baadb50c, type: 2}
+  - {fileID: 11400000, guid: acf2ce86f504f054aa629a95f63d9f86, type: 2}
+  - {fileID: 11400000, guid: c7c5a6d039d302941bcde41e826c2e3e, type: 2}
+  - {fileID: 11400000, guid: 6fbc2d8bba1e5fe4b96c4123f027c70f, type: 2}
+  - {fileID: 11400000, guid: 60f4bb84d71acb4479dade90a8a75849, type: 2}

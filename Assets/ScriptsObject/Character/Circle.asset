@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da799859326990c439a06efaabf8ea6a, type: 3}
   m_Name: Circle
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  id: 3
+  id: 2
+  displayName: 
+  description: 1111
   icon: {fileID: -2413806693520163455, guid: 5a46f87d121a84a4a8143399e182b681, type: 3}
   characterName: Circle
-  description: 1111
   stats:
     survival:
       maxHP: 10
@@ -27,17 +28,22 @@ MonoBehaviour:
       speedMultiplier: 1
     combat:
       damage: 0
-      damageMultiplier: 0
-      attackInterval: 0
-      cooldownReduction: 0
+      cooldownMultiplier: 0
       critChance: 0
-      critDamage: 0
+      critDamageMultiplier: 0
+      knockbackForce: 0
+      range: 10
     projectile:
       projectileCount: 0
       projectileSize: 0
+      projectileSpeed: 0
+      spreadAngle: 0
+      pierce: 0
+      duration: 0
     utility:
       pickupRadius: 1
       luck: 0
       expGain: 0
       goldGain: 0
-  baseWeapon: {fileID: 11400000, guid: fb54c601b6bb5784b81fbdffeab854d3, type: 2}
+      curse: 0
+  baseWeapon: {fileID: 11400000, guid: 6fbc2d8bba1e5fe4b96c4123f027c70f, type: 2}

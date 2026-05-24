@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0af10f21d6e89d148ac3dc116ade45cf, type: 3}
   m_Name: MapThemeDatabase
   m_EditorClassIdentifier: Assembly-CSharp::MapThemeDatabase
-  map:
+  datas:
   - {fileID: 11400000, guid: fad4402df5574d245b20d6425fa80b3e, type: 2}
   - {fileID: 11400000, guid: 253e3e91f35a76f4e8a9661517bdf7c7, type: 2}
   - {fileID: 11400000, guid: 173408aa171a7404a95cb6e689913271, type: 2}

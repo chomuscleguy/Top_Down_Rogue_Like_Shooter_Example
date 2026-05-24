@@ -5,7 +5,7 @@ public class CriticalModifier : IDamageModifier
         if (!hit.isCritical)
             return;
 
-        float critDamage = hit.attackerStats.GetCombatStats().critDamage;
+        float critDamage = 1 + hit.attackerStats.GetCombatStats().critDamageMultiplier;
 
         hit.finalDamage *= critDamage;
     }

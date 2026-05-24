@@ -3,76 +3,70 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour, ITickable
 {
+    public enum HitMode
+    {
+        Collision,
+        TargetOnly
+    }
+
     [Header("Behaviour")]
     [SerializeField]
     private List<ProjectileBehaviour> behaviours = new();
 
-    private Vector2 spawnPosition;
-    private Vector2 direction;
+    private Vector2 velocity;
 
-    private WeaponStats stats;
+    private CombatStats combat;
+    private ProjectileStats projectile;
+
     private ObjectPool<Projectile> pool;
 
     private float lifeTimer;
-    private const float maxLife = 5f;
-
     private bool isExpired;
-    private bool hasTurned;
 
-    private int remainPierce;
+    private int pierceLeft;
 
+    [Header("Hit Settings")]
+    [SerializeField]
+    private HitMode hitMode = HitMode.Collision;
+
+    [SerializeField]
+    private float targetHitDistance = 0.2f;
+
+    public Transform Owner { get; private set; }
     public Transform Target { get; set; }
 
-    // =========================
-    // Properties
-    // =========================
+    public Vector2 Velocity => velocity;
 
-    public Vector2 Direction => direction;
+    public CombatStats Combat => combat;
+    public ProjectileStats ProjectileStat => projectile;
 
-    public Vector2 SpawnPosition => spawnPosition;
+    public ObjectPool<Projectile> Pool => pool;
 
-    public float Speed => stats.projectileSpeed;
+    public WeaponRuntime Source { get; private set; }
 
-    public WeaponStats Stats => stats;
-
-    public bool HasTurned
+    public void Init(Vector2 dir, CombatStats combat, ProjectileStats projectile, ObjectPool<Projectile> pool, Transform owner, WeaponRuntime source)
     {
-        get => hasTurned;
-        set => hasTurned = value;
-    }
-
-    // =========================
-    // Init
-    // =========================
-
-    public void Init(
-        Vector2 dir,
-        WeaponStats stats,
-        ObjectPool<Projectile> pool)
-    {
-        spawnPosition = transform.position;
-
-        direction = dir.normalized;
-
-        this.stats = stats;
+        this.velocity = dir.normalized * projectile.projectileSpeed;
+        this.combat = combat;
+        this.projectile = projectile;
         this.pool = pool;
+        this.Owner = owner;
+        this.Source = source;
 
-        remainPierce = stats.pierce;
+        pierceLeft = projectile.pierce;
 
         lifeTimer = 0f;
-
         isExpired = false;
-        hasTurned = false;
+
+        gameObject.SetActive(true);
 
         Core.Instance.Tick.Register(this);
 
-        foreach (var b in behaviours)
-            b.OnSpawn(this);
+        for (int i = 0; i < behaviours.Count; i++)
+        {
+            behaviours[i].OnSpawn(this);
+        }
     }
-
-    // =========================
-    // Tick
-    // =========================
 
     public void Tick(float dt)
     {
@@ -82,70 +76,121 @@ public class Projectile : MonoBehaviour, ITickable
             return;
         }
 
-        foreach (var b in behaviours)
-            b.OnUpdate(this, dt);
+        for (int i = 0; i < behaviours.Count; i++)
+        {
+            behaviours[i].OnUpdate(this, dt);
+        }
 
         Move(dt);
+
+        if (hitMode == HitMode.TargetOnly)
+        {
+            UpdateTargetHit();
+        }
 
         UpdateLife(dt);
     }
 
-    // =========================
-    // Move
-    // =========================
-
     private void Move(float dt)
     {
-        transform.position +=
-            (Vector3)(direction * stats.projectileSpeed * dt);
+        transform.position += (Vector3)(velocity * dt);
     }
-
-    // =========================
-    // Life
-    // =========================
 
     private void UpdateLife(float dt)
     {
         lifeTimer += dt;
 
-        if (lifeTimer >= maxLife)
+        if (lifeTimer >= projectile.duration)
+        {
             RequestExpire();
+        }
     }
 
-    // =========================
-    // Collision
-    // =========================
+    private void UpdateTargetHit()
+    {
+        if (Target == null)
+        {
+            RequestExpire();
+            return;
+        }
+
+        float sqrDist = (Target.position - transform.position).sqrMagnitude;
+
+        if (sqrDist <= targetHitDistance * targetHitDistance)
+        {
+            HitTarget();
+        }
+    }
+
+    private void HitTarget()
+    {
+        if (!Target.TryGetComponent(out IDamageable damageable))
+        {
+            RequestExpire();
+            return;
+        }
+
+        damageable.TakeDamage(combat.damage, Source);
+
+        if (Target.TryGetComponent(out IKnockbackable knockbackable))
+        {
+            knockbackable.ApplyKnockback(velocity.normalized, combat.knockbackForce);
+        }
+
+        for (int i = 0; i < behaviours.Count; i++)
+        {
+            behaviours[i].OnHit(this, damageable);
+        }
+
+        RequestExpire();
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Enemy"))
+        if (hitMode != HitMode.Collision)
             return;
 
-        foreach (var b in behaviours)
-            b.OnHit(this, other);
+        IDamageable damageable = other.GetComponent<IDamageable>();
+
+        if (damageable == null)
+            return;
+
+        damageable.TakeDamage(combat.damage, Source);
+
+        if (other.TryGetComponent(out IKnockbackable knockbackable))
+        {
+            knockbackable.ApplyKnockback(velocity.normalized, combat.knockbackForce);
+        }
+
+        for (int i = 0; i < behaviours.Count; i++)
+        {
+            behaviours[i].OnHit(this, damageable);
+        }
 
         HandlePierce();
     }
 
     private void HandlePierce()
     {
-        // -1 = infinite pierce
-        if (remainPierce < 0)
+        if (projectile.pierce == -1)
             return;
 
-        remainPierce--;
+        pierceLeft--;
 
-        if (remainPierce < 0)
+        if (pierceLeft <= 0)
+        {
             RequestExpire();
+        }
     }
 
-    // =========================
-    // Public
-    // =========================
-
-    public void SetDirection(Vector2 dir)
+    public void SetVelocity(Vector2 v)
     {
-        direction = dir.normalized;
+        velocity = v;
+    }
+
+    public void SetHitMode(HitMode mode)
+    {
+        hitMode = mode;
     }
 
     public void RequestExpire()
@@ -153,23 +198,20 @@ public class Projectile : MonoBehaviour, ITickable
         isExpired = true;
     }
 
-    // =========================
-    // Expire
-    // =========================
-
     private void Expire()
     {
         Core.Instance.Tick.Unregister(this);
 
-        foreach (var b in behaviours)
-            b.OnExpire(this);
+        for (int i = 0; i < behaviours.Count; i++)
+        {
+            behaviours[i].OnExpire(this);
+        }
 
         pool.Return(this);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        if (Core.Instance != null)
-            Core.Instance.Tick.Unregister(this);
+        Core.Instance.Tick.Unregister(this);
     }
 }

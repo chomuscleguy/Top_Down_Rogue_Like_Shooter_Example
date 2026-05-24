@@ -33,13 +33,13 @@ public class GameManager : MonoBehaviour, IManager
 
     public void StartRun()
     {
-        CharacterData character = Core.Instance.Data.Characters.GetByID(SelectedCharacterID);
+        CharacterData character = Core.Instance.Data.Characters.Get(SelectedCharacterID);
 
-        MapThemeData map = Core.Instance.Data.Map.GetByID(SelectedMapID);
+        MapThemeData map = Core.Instance.Data.Maps.Get(SelectedMapID);
 
         Run = new RunData();
 
-        Run.Init(character, Progress, Core.Instance.Data.Upgrades.upgrades);
+        Run.Init(character, Progress, Core.Instance.Data.Upgrades.GetAll());
 
         ChangeState(GameState.Playing);
     }

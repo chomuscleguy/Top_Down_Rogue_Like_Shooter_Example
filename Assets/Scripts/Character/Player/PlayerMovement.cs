@@ -64,4 +64,9 @@ public class PlayerMovement : MonoBehaviour, ITickable
 
         transform.position = currentPos;
     }
+
+    private void OnDestroy()
+    {
+        Core.Instance.Tick.Unregister(this);
+    }
 }

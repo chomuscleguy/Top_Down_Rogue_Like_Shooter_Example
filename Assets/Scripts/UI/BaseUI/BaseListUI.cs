@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseListUI<TData, TSlot> : BasePopup where TSlot : MonoBehaviour
+public abstract class BaseListUI<TData, TSlot> : MonoBehaviour where TSlot : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] protected Transform content;
@@ -27,7 +27,7 @@ public abstract class BaseListUI<TData, TSlot> : BasePopup where TSlot : MonoBeh
         return slot;
     }
 
-    protected void Rebuild(IEnumerable<TData> dataList, System.Action<TSlot, TData> onBind)
+    public void Rebuild(IEnumerable<TData> dataList, System.Action<TSlot, TData> onBind)
     {
         Clear();
 

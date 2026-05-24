@@ -4,14 +4,33 @@ public class HPBar : BaseBar
 
     public void Init(IHealthProvider provider)
     {
+        Unbind();
+
         health = provider;
 
-        health.OnHealthChanged += SetValue;
+        if (health != null)
+        {
+            health.OnHealthChanged += SetValue;
+
+            SetValue(health.CurrentHP, health.MaxHP);
+        }
+    }
+
+    public void Unbind()
+    {
+        if (health != null)
+            health.OnHealthChanged -= SetValue;
+
+        health = null;
     }
 
     private void OnDisable()
     {
-        if (health != null)
-            health.OnHealthChanged -= SetValue;
+        Unbind();
+    }
+
+    private void OnDestroy()
+    {
+        Unbind();
     }
 }

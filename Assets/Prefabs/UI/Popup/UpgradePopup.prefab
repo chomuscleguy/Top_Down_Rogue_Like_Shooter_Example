@@ -456,8 +456,9 @@ GameObject:
   - component: {fileID: 7220894456058134011}
   - component: {fileID: 2345836753153654227}
   - component: {fileID: 7967246290345013509}
+  - component: {fileID: 1986218793618894133}
   m_Layer: 5
-  m_Name: Board
+  m_Name: List
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -548,6 +549,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1986218793618894133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473923413230604012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b255e708a693642b2319f102dbf751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeList
+  content: {fileID: 3401516947065276822}
+  slotPrefab: {fileID: 731942572392358273, guid: 2200406b5e1ae494d9bd35598f09fadc, type: 3}
 --- !u!1 &2826972330652942545
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,8 +2110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6c7303f1d5dec48b233f3afdce2f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeUI
-  content: {fileID: 3401516947065276822}
-  slotPrefab: {fileID: 731942572392358273, guid: 2200406b5e1ae494d9bd35598f09fadc, type: 3}
+  list: {fileID: 1986218793618894133}
   database: {fileID: 11400000, guid: 2f314a8d3494fda43a10eb8eafa26d1c, type: 2}
   detailPanel: {fileID: 2002163185976440656}
   returnButton: {fileID: 7310249569374863744}

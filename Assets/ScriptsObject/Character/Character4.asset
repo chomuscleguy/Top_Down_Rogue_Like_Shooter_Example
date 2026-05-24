@@ -12,32 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da799859326990c439a06efaabf8ea6a, type: 3}
   m_Name: Character4
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  id: 0
+  id: 3
+  displayName: 
+  description: 1256125125
+  id: 3
   icon: {fileID: 5190374310413577522, guid: 7af066779bf383f49a887a70906a5c3c, type: 3}
   characterName: Dummy
-  description: 1256125125
   stats:
     survival:
-      maxHP: 10
-      hpRegen: 1
-      armor: 1
-      dodgeChance: 10
+      maxHP: 9999999
+      hpRegen: 9999999
+      armor: 9999999
+      dodgeChance: 9999999
     movement:
-      moveSpeed: 1.5
-      speedMultiplier: 1
+      moveSpeed: 9999999
+      speedMultiplier: 9999999
     combat:
-      damage: 0
-      damageMultiplier: 0
-      attackInterval: 0
-      cooldownReduction: 0
-      critChance: 0
-      critDamage: 0
+      damage: 9999999
+      damageMultiplier: 9999999
+      attackInterval: 9999999
+      cooldownReduction: 9999999
+      critChance: 9999999
+      critDamage: 9999999
     projectile:
-      projectileCount: 0
-      projectileSize: 0
+      projectileCount: 9999999
+      projectileSize: 9999999
     utility:
-      pickupRadius: 1
-      luck: 0
-      expGain: 0
-      goldGain: 0
+      pickupRadius: 9999999
+      luck: 9999999
+      expGain: 9999999
+      goldGain: 9999999
+      curse: 9999999
   baseWeapon: {fileID: 11400000, guid: 8789a622aba6eb642b079ff488d4b561, type: 2}

@@ -6,5 +6,4 @@ public interface IHealthProvider
     float MaxHP { get; }
 
     event Action<float, float> OnHealthChanged;
-    event Action OnDeath;
 }

@@ -119,7 +119,7 @@ Transform:
   m_GameObject: {fileID: 6110487441603810697}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.63349, y: 1.6174, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -201,6 +201,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3eed1c4e145444cba236bff209b3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  behaviours:
-  - {fileID: 11400000, guid: 8dbe22ccd00bf31459a4e7cb757d9a65, type: 2}
-  - {fileID: 11400000, guid: 645b72d56fab8e140b71ffad969b5e0e, type: 2}
+  behaviours: []

@@ -22,8 +22,8 @@ public static class UpgradeDescriptionFactory
         if (stats.movement.moveSpeed != 0)
             lines.Add($"MoveSpeed +{stats.movement.moveSpeed}");
 
-        if (stats.combat.cooldownReduction != 0)
-            lines.Add($"Cooldown -{stats.combat.cooldownReduction * 100f}%");
+        if (stats.combat.cooldownMultiplier != 0)
+            lines.Add($"Cooldown -{stats.combat.cooldownMultiplier * 100f}%");
 
         if (stats.combat.critChance != 0)
             lines.Add($"Crit +{stats.combat.critChance * 100f}%");

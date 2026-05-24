@@ -1,11 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class TickSystem : MonoBehaviour
+public class TickSystem : MonoBehaviour, IManager
 {
     private readonly HashSet<ITickable> tickables = new();
 
     private readonly List<ITickable> tickBuffer = new();
+
+    public void Init()
+    {
+
+    }
 
     public void Register(ITickable tickable)
     {
@@ -29,7 +34,18 @@ public class TickSystem : MonoBehaviour
 
         foreach (ITickable tickable in tickBuffer)
         {
+            if (tickable == null)
+            {
+                tickables.Remove(tickable);
+                continue;
+            }
+
             tickable.Tick(dt);
         }
+    }
+
+    public void Clear()
+    {
+        tickables.Clear();
     }
 }

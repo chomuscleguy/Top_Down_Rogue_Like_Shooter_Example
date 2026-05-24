@@ -32,11 +32,14 @@ public class UIManager : MonoBehaviour, IManager
         ClearUI();
     }
 
-    public T ShowPopup<T>(UIType type) where T : BasePopup
+    public T ShowPopup<T>(UIType type, System.Action<T> onInit = null) where T : BasePopup
     {
         var popup = factory.CreatePopup<T>(type, popupRoot);
 
+        onInit?.Invoke(popup);
+
         popupStack.Push(popup);
+
         popup.Open();
 
         UpdateTimeScale();

@@ -1,77 +1,104 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Projectile/Chain")]
+[CreateAssetMenu(menuName = "Projectile/Behaviour/Chain")]
 public class ChainBehaviour : ProjectileBehaviour
 {
-    [SerializeField]
-    private int chainCount = 3;
-
-    [SerializeField]
-    private float radius = 5f;
-
-    public override void OnHit(Projectile p, Collider2D target)
+    private class State
     {
-        HashSet<Collider2D> hitTargets = new();
+        public int chainCount;
+        public HashSet<Enemy> hitEnemies = new();
+    }
 
-        Collider2D current = target;
+    private readonly Dictionary<Projectile, State> states = new();
 
-        hitTargets.Add(current);
+    public int maxChain = 5;
+    public float chainRange = 5f;
+    public float damageDecay = 0.8f;
+    public LayerMask enemyLayer;
 
-        for (int i = 0; i < chainCount; i++)
+    public override void OnSpawn(Projectile p)
+    {
+        if (!states.ContainsKey(p))
         {
-            Collider2D next =
-                FindNext(current.transform.position, hitTargets);
-
-            if (next == null)
-                break;
-
-            hitTargets.Add(next);
-
-            if (next.TryGetComponent<IDamageable>(
-                out var damageable))
-            {
-                damageable.TakeDamage(
-                    p.Stats.damage * 0.7f);
-            }
-
-            current = next;
+            states[p] = new State();
         }
     }
 
-    private Collider2D FindNext(
-        Vector2 pos,
-        HashSet<Collider2D> excluded)
+    public override void OnHit(Projectile p, IDamageable target)
     {
-        Collider2D[] hits =
-            Physics2D.OverlapCircleAll(pos, radius);
+        if (!states.TryGetValue(p, out var state))
+            return;
 
-        float closestDistance = float.MaxValue;
+        Enemy enemy = target as Enemy;
 
-        Collider2D closest = null;
+        if (enemy == null)
+            return;
 
-        foreach (var hit in hits)
+        state.hitEnemies.Add(enemy);
+
+        if (state.chainCount >= maxChain)
+            return;
+
+        Enemy next = FindNextTarget(enemy.transform.position, state.hitEnemies);
+
+        if (next == null)
+            return;
+
+        Vector2 dir = (next.transform.position - enemy.transform.position).normalized;
+
+        Projectile clone = p.Pool.Get();
+
+        clone.transform.position = enemy.transform.position;
+
+        clone.Target = next.transform;
+
+        clone.SetHitMode(Projectile.HitMode.TargetOnly);
+
+        CombatStats nextCombat = p.Combat;
+
+        nextCombat.damage *= damageDecay;
+
+        clone.Init(dir, nextCombat, p.ProjectileStat, p.Pool, p.Owner, p.Source);
+
+        states[clone] = new State
         {
-            if (excluded.Contains(hit))
+            chainCount = state.chainCount + 1,
+            hitEnemies = new HashSet<Enemy>(state.hitEnemies)
+        };
+    }
+
+    public override void OnExpire(Projectile p)
+    {
+        states.Remove(p);
+    }
+
+    private Enemy FindNextTarget(Vector3 origin, HashSet<Enemy> excluded)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(origin, chainRange, enemyLayer);
+
+        Enemy nearest = null;
+        float nearestDist = float.MaxValue;
+
+        foreach (var h in hits)
+        {
+            Enemy e = h.GetComponent<Enemy>();
+
+            if (e == null)
                 continue;
 
-            if (!hit.TryGetComponent<IDamageable>(
-                out _))
-            {
+            if (excluded.Contains(e))
                 continue;
-            }
 
-            float sqrDistance =
-                ((Vector2)hit.transform.position - pos)
-                .sqrMagnitude;
+            float dist = (e.transform.position - origin).sqrMagnitude;
 
-            if (sqrDistance < closestDistance)
+            if (dist < nearestDist)
             {
-                closestDistance = sqrDistance;
-                closest = hit;
+                nearestDist = dist;
+                nearest = e;
             }
         }
 
-        return closest;
+        return nearest;
     }
 }

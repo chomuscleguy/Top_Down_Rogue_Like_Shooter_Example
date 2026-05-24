@@ -65,6 +65,6 @@ public class Bootstrapper : MonoBehaviour
         if (gameFlow == null)
             return;
 
-        gameFlow.Init(playerInstance.Run);
+        gameFlow.Init(playerInstance.Run, playerInstance.Health);
     }
 }

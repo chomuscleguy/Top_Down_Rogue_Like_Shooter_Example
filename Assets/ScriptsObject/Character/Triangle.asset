@@ -12,32 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da799859326990c439a06efaabf8ea6a, type: 3}
   m_Name: Triangle
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  id: 2
+  id: 1
+  displayName: 
+  description: 12345
+  id: 1
   icon: {fileID: -3795437932344149621, guid: 8910195350ee37b41abc7952e5a8a5b9, type: 3}
   characterName: Triangle
-  description: 12345
   stats:
     survival:
-      maxHP: 10
-      hpRegen: 1
-      armor: 1
+      maxHP: 100
+      hpRegen: 10010
+      armor: 1010
       dodgeChance: 10
     movement:
-      moveSpeed: 1.5
-      speedMultiplier: 1
+      moveSpeed: 1.1111112e+9
+      speedMultiplier: 1010
     combat:
-      damage: 0
-      damageMultiplier: 0
-      attackInterval: 0
-      cooldownReduction: 0
-      critChance: 0
-      critDamage: 0
+      damage: 101010
+      damageMultiplier: 101010
+      attackInterval: 1010
+      cooldownReduction: 101010
+      critChance: 1111
+      critDamage: 11111
     projectile:
-      projectileCount: 0
-      projectileSize: 0
+      projectileCount: 111111
+      projectileSize: 11111
     utility:
-      pickupRadius: 1
-      luck: 0
-      expGain: 0
-      goldGain: 0
+      pickupRadius: 111111
+      luck: 1111111
+      expGain: 111111
+      goldGain: 111111110
+      curse: 11111111
   baseWeapon: {fileID: 11400000, guid: fb54c601b6bb5784b81fbdffeab854d3, type: 2}

@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UpgradeData", menuName = "SO/Upgrade")]
-public class UpgradeData : ScriptableObject
+public class UpgradeData : BaseData
 {
+    [Header("Visual")]
     public Sprite icon;
-    public string displayName;
 
-    public List<UpgradeLevelData> levels;
+    [Header("Levels")]
+    public List<UpgradeLevelData> levels = new();
 
     public int MaxLevel => levels.Count;
 
@@ -18,19 +19,30 @@ public class UpgradeData : ScriptableObject
 
         return levels[level - 1];
     }
+
     public CharacterStats GetStats(int level)
     {
-        if (level <= 0 || level > levels.Count)
-            return default;
+        UpgradeLevelData data = GetLevel(level);
 
-        return levels[level - 1].stats;
+        return data.stats;
     }
 
     public int GetCost(int level)
     {
-        if (level < 0 || level >= levels.Count)
-            return 0;
+        UpgradeLevelData data = GetLevel(level);
 
-        return levels[level].cost;
+        return data.cost;
     }
+
+#if UNITY_EDITOR
+    protected override void OnValidate()
+    {
+        base.OnValidate();
+
+        if (ID < 5000 || ID >= 6000)
+        {
+            Debug.LogError($"{name}: Upgrade ID는 5000~5999 범위를 사용해야 합니다.", this);
+        }
+    }
+#endif
 }

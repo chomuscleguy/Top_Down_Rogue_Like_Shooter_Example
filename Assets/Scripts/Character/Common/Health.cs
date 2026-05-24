@@ -1,13 +1,12 @@
 using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IDamageable
+public class Health : MonoBehaviour, IDamageable,IHealthProvider
 {
-    [SerializeField]
-    private float maxHP;
+    [SerializeField] private float maxHP;
+    [SerializeField] private float currentHP;
 
-    [SerializeField]
-    private float currentHP;
+    private bool isDead;
 
     public event Action<Health> OnDeath;
     public event Action<float> OnDamageTaken;
@@ -15,12 +14,15 @@ public class Health : MonoBehaviour, IDamageable
 
     public float CurrentHP => currentHP;
     public float MaxHP => maxHP;
-    public bool IsDead => currentHP <= 0f;
+    public bool IsDead => isDead;
 
     public void Init(float hp)
     {
-        maxHP = hp;
-        ResetHealth();
+        maxHP = Mathf.Max(1f, hp);
+        currentHP = maxHP;
+        isDead = false;
+
+        NotifyHealthChanged();
     }
 
     public void ApplyStats(SurvivalStats stats)
@@ -30,9 +32,12 @@ public class Health : MonoBehaviour, IDamageable
 
     public void SetMaxHP(float newMaxHP, bool healToFull = true)
     {
-        maxHP = newMaxHP;
+        maxHP = Mathf.Max(1f, newMaxHP);
 
-        currentHP = healToFull ? maxHP : Mathf.Min(currentHP, maxHP);
+        if (healToFull)
+            currentHP = maxHP;
+        else
+            currentHP = Mathf.Min(currentHP, maxHP);
 
         NotifyHealthChanged();
     }
@@ -40,18 +45,24 @@ public class Health : MonoBehaviour, IDamageable
     public void ResetHealth()
     {
         currentHP = maxHP;
+        isDead = false;
+
         NotifyHealthChanged();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, WeaponRuntime source)
     {
-        if (IsDead)
+        if (isDead)
             return;
 
-        currentHP -= damage;
+        if (source != null)
+            source.Stats.totalDamage += damage;
+
+        float finalDamage = Mathf.Max(0f, damage);
+        currentHP -= finalDamage;
         currentHP = Mathf.Max(currentHP, 0f);
 
-        OnDamageTaken?.Invoke(damage);
+        OnDamageTaken?.Invoke(finalDamage);
         NotifyHealthChanged();
 
         if (currentHP <= 0f)
@@ -60,10 +71,19 @@ public class Health : MonoBehaviour, IDamageable
 
     public void Heal(float amount)
     {
-        if (IsDead)
+        if (isDead)
             return;
 
-        currentHP = Mathf.Min(currentHP + amount, maxHP);
+        currentHP = Mathf.Min(currentHP + Mathf.Max(0f, amount), maxHP);
+
+        NotifyHealthChanged();
+    }
+
+    public void Revive(float hp = 1f)
+    {
+        isDead = false;
+        currentHP = Mathf.Clamp(hp, 0f, maxHP);
+
         NotifyHealthChanged();
     }
 
@@ -74,6 +94,11 @@ public class Health : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        if (isDead)
+            return;
+
+        isDead = true;
+
         OnDeath?.Invoke(this);
     }
 }

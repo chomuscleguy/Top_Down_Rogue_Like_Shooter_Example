@@ -2,40 +2,75 @@ using UnityEngine;
 
 public class DropManager : MonoBehaviour, IManager
 {
-    [SerializeField] private ExpOrb small;
-    [SerializeField] private ExpOrb medium;
-    [SerializeField] private ExpOrb large;
+    [Header("XP")]
+    [SerializeField] private ExpPickup smallExp;
+
+    [SerializeField] private ExpPickup mediumExp;
+
+    [SerializeField] private ExpPickup largeExp;
+
+    [Header("Gold")]
+    [SerializeField] private GoldPickup smallGold;
+
+    [SerializeField] private GoldPickup mediumGold;
+
+    [SerializeField] private GoldPickup largeGold;
 
     public void Init()
     {
-        throw new System.NotImplementedException();
     }
 
-    public void SpawnExp(int xp, Vector3 pos)
+    public void SpawnDrops(EnemyData data, Vector3 position)
     {
-        while (xp > 0)
+        foreach (DropData drop in data.drops)
         {
-            ExpOrb prefab;
+            if (Random.value > drop.chance)
+                continue;
 
-            if (xp >= 20) 
+            switch (drop.type)
+            {
+                case DropType.XP:
+                    SpawnPickup(drop.amount, position, smallExp, mediumExp, largeExp);
+                    break;
+
+                case DropType.Gold:
+                    SpawnPickup(drop.amount, position, smallGold, mediumGold, largeGold);
+                    break;
+            }
+        }
+    }
+
+    private void SpawnPickup<T>(int amount, Vector3 position, T small, T medium, T large) where T : Pickup
+    {
+        while (amount > 0)
+        {
+            T prefab;
+
+            int value;
+
+            if (amount >= 20)
             {
                 prefab = large;
-                xp -= 20;
+                value = 20;
             }
-            else if (xp >= 5)
+            else if (amount >= 5)
             {
-                prefab = medium; 
-                xp -= 5;
+                prefab = medium;
+                value = 5;
             }
             else
             {
-                prefab = small; 
-                xp -= 1;
+                prefab = small;
+                value = 1;
             }
 
-            var orb = Instantiate(prefab, pos, Quaternion.identity);
-            orb.Init(xp);
-            Core.Instance.Orb.Register(orb);
+            amount -= value;
+
+            T pickup = Instantiate(prefab, position, Quaternion.identity);
+
+            pickup.Init(value);
+
+            Core.Instance.Pickup.Register(pickup);
         }
     }
 }

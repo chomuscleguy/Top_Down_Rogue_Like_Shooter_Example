@@ -4,26 +4,30 @@ using System;
 public struct CombatStats
 {
     public float damage;
-    public float damageMultiplier;
 
-    public float attackInterval;
-    public float cooldownReduction;
+    public float cooldownMultiplier;
 
     public float critChance;
-    public float critDamage;
+    public float critDamageMultiplier;
+
+    public float knockbackForce;
+
+    public float range;
 
     public static CombatStats operator +(CombatStats a, CombatStats b)
     {
         return new CombatStats
         {
             damage = a.damage + b.damage,
-            damageMultiplier = a.damageMultiplier + b.damageMultiplier,
 
-            attackInterval = a.attackInterval + b.attackInterval,
-            cooldownReduction = a.cooldownReduction + b.cooldownReduction,
+            cooldownMultiplier = a.cooldownMultiplier * b.cooldownMultiplier,
 
             critChance = a.critChance + b.critChance,
-            critDamage = a.critDamage + b.critDamage
+            critDamageMultiplier = a.critDamageMultiplier + b.critDamageMultiplier,
+
+            knockbackForce = a.knockbackForce + b.knockbackForce,
+
+            range = a.range + b.range,
         };
     }
 }

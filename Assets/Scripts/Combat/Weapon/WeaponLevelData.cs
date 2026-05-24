@@ -4,7 +4,11 @@ using UnityEngine;
 [System.Serializable]
 public class WeaponLevelData
 {
-    public WeaponStats stats;
+    public CombatStats combat;
+    public ProjectileStats projectile;
+    public float attackInterval;
+    
 
+    [TextArea]
     public string decription;
 }

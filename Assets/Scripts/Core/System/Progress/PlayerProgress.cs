@@ -96,7 +96,7 @@ public partial class PlayerProgress
         return true;
     }
 
-    public int CalculateTotalSpent(List<UpgradeData> upgrades)
+    public int CalculateTotalSpent(IReadOnlyList<UpgradeData> upgrades)
     {
         int total = 0;
 
@@ -115,12 +115,18 @@ public partial class PlayerProgress
 
     public void ResetAll()
     {
-        gold = 0;
-
         runtimeLevels.Clear();
         serializedLevels.Clear();
 
         OnGoldChanged?.Invoke(gold);
         OnChanged?.Invoke();
+    }
+
+    public IEnumerable<(UpgradeData upgrade, int level)> GetAllUpgrades()
+    {
+        foreach (var pair in runtimeLevels)
+        {
+            yield return (pair.Key, pair.Value);
+        }
     }
 }

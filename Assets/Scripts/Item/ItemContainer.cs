@@ -23,8 +23,7 @@ public class ItemContainer
         return 0;
     }
 
-    public IEnumerable<(ItemData item, int level)>
-        GetAllItems()
+    public IEnumerable<(ItemData item, int level)> GetAllItems()
     {
         foreach (var pair in items)
         {

@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98613e8bb5196bf4a80b5fbf8c98b1b1, type: 3}
   m_Name: CritChance
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
-  icon: {fileID: -9095717837082945937, guid: 30a16afeb0b81794a8f055e26a630dd3, type: 3}
+  id: 5002
   displayName: CritChance
+  description: 
+  icon: {fileID: -9095717837082945937, guid: 30a16afeb0b81794a8f055e26a630dd3, type: 3}
   levels:
   - stats:
       survival:
@@ -39,6 +41,7 @@ MonoBehaviour:
         luck: 0
         expGain: 0
         goldGain: 0
+        curse: 0
     cost: 0
   - stats:
       survival:
@@ -64,6 +67,7 @@ MonoBehaviour:
         luck: 0
         expGain: 0
         goldGain: 0
+        curse: 0
     cost: 0
   - stats:
       survival:
@@ -89,4 +93,5 @@ MonoBehaviour:
         luck: 0
         expGain: 0
         goldGain: 0
+        curse: 0
     cost: 0

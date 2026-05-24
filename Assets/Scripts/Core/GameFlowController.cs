@@ -3,49 +3,47 @@ using UnityEngine;
 public class GameFlowController : MonoBehaviour
 {
     private RunData run;
+    private Health playerHealth;
 
-    public void Init(RunData runData)
+    public void Init(RunData runData, Health health)
     {
         run = runData;
+        playerHealth = health;
 
         run.OnLevelUp += HandleLevelUp;
-        run.OnDeath += HandleGameOver;
+        playerHealth.OnDeath += HandleGameOver;
     }
 
     private void HandleLevelUp()
     {
         Pause();
 
-        var items = ItemSelector.GetRandomSelectableItems(run, Core.Instance.Data.Items, 3);
-
-        var ui = Core.Instance.UI.ShowPopup<LevelUpPopup>(UIType.LevelUpPopup);
-
-        ui.Init(items, data => run.Items.GetLevel(data), OnItemSelected);
+        Core.Instance.UI.ShowPopup<LevelUpPopup>(UIType.LevelUpPopup);
     }
 
-    private void OnItemSelected(ItemData data)
-    {
-        run.AddItem(data);
-
-        Core.Instance.UI.CloseTopPopup();
-
-        Resume();
-    }
-
-    private void HandleGameOver()
+    private void HandleGameOver(Health _)
     {
         Pause();
-        Core.Instance.UI.ShowPopup<BasePopup>(UIType.GameOverPopup);
+
+        Core.Instance.UI.ShowPopup<ResultPopupUI>(UIType.GameOverPopup);
     }
 
-    public void Pause() => Time.timeScale = 0f;
-    public void Resume() => Time.timeScale = 1f;
+    public void Pause()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1f;
+    }
 
     private void OnDestroy()
     {
-        if (run == null) return;
+        if (run != null)
+            run.OnLevelUp -= HandleLevelUp;
 
-        run.OnLevelUp -= HandleLevelUp;
-        run.OnDeath -= HandleGameOver;
+        if (playerHealth != null)
+            playerHealth.OnDeath -= HandleGameOver;
     }
 }

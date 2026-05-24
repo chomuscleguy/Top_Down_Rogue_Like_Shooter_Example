@@ -11,17 +11,20 @@ public class OrbitWeaponObject : MonoBehaviour
 
     private float damage;
 
+    private WeaponRuntime source;
+
     private readonly Dictionary<Collider2D, float> hitCooldowns = new();
 
     private float hitInterval = 0.3f;
 
-    public void Init(Transform center, float radius, float rotateSpeed, float startAngle, float damage)
+    public void Init(Transform center, float radius, float rotateSpeed, float startAngle, float damage, WeaponRuntime source)
     {
         this.center = center;
         this.radius = radius;
         this.rotateSpeed = rotateSpeed;
         this.angle = startAngle;
         this.damage = damage;
+        this.source = source;
     }
 
     private void Update()
@@ -66,8 +69,7 @@ public class OrbitWeaponObject : MonoBehaviour
 
         if (damageable != null)
         {
-            damageable.TakeDamage(damage);
-
+            damageable.TakeDamage(damage, source);
             hitCooldowns[other] = hitInterval;
         }
     }

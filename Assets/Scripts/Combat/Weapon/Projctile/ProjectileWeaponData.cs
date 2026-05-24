@@ -9,6 +9,8 @@ public enum TargetingMode
 [CreateAssetMenu(menuName = "Weapon/Projectile Weapon")]
 public class ProjectileWeaponData : WeaponData
 {
-    public TargetingMode targetingMode;
-    public Projectile projectilePrefab;
+    public override CharacterStats GetStats(int level)
+    {
+        return default;
+    }
 }

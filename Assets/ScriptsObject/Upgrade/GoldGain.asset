@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98613e8bb5196bf4a80b5fbf8c98b1b1, type: 3}
   m_Name: GoldGain
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
-  icon: {fileID: -3795437932344149621, guid: 8910195350ee37b41abc7952e5a8a5b9, type: 3}
+  id: 5007
   displayName: GoldGain
+  description: 
+  icon: {fileID: -3795437932344149621, guid: 8910195350ee37b41abc7952e5a8a5b9, type: 3}
   levels:
   - stats:
       survival:
@@ -39,6 +41,7 @@ MonoBehaviour:
         luck: 0
         expGain: 0
         goldGain: 0
+        curse: 0
     cost: 0
   - stats:
       survival:
@@ -64,6 +67,7 @@ MonoBehaviour:
         luck: 0
         expGain: 0
         goldGain: 0
+        curse: 0
     cost: 0
   - stats:
       survival:
@@ -89,4 +93,5 @@ MonoBehaviour:
         luck: 0
         expGain: 0
         goldGain: 0
+        curse: 0
     cost: 0

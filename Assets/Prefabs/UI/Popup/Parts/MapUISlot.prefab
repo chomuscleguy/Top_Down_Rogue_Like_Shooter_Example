@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapUISlot
   background: {fileID: 7911779923221438090}
-  thumnail: {fileID: 7575294573495948391}
+  thumbnail: {fileID: 7575294573495948391}
   button: {fileID: 8708224482161678446}
   numberText: {fileID: 5010236119641699005}
   descText: {fileID: 952791990579805374}

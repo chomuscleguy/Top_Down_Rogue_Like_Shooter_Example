@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Database", menuName = "Database/Upgrade")]
 
-public class UpgradeDatabase : ScriptableObject
+public class UpgradeDatabase : BaseDatabase<UpgradeData>
 {
-    public List<UpgradeData> upgrades;
 }

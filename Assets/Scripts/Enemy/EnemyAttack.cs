@@ -2,18 +2,15 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour, ITickable
 {
-    [SerializeField]
     private float damage = 1f;
-
     private GameObject target;
 
     private float timer;
-    private float interval = 1f;
+    private float interval = 0.5f;
 
     public void Init(EnemyData data)
     {
         damage = data.stats.combat.damage;
-
         Core.Instance.Tick.Register(this);
     }
 
@@ -34,18 +31,19 @@ public class EnemyAttack : MonoBehaviour, ITickable
 
     private void TryDealDamage()
     {
-        bool critical = false;
+        if (target == null)
+            return;
 
-        HitContext hit = Core.Instance.Combat.CreateHit(attacker: gameObject, target: target, baseDamage: damage, 
-            direction: (target.transform.position - transform.position).normalized, isCritical: critical);
-
-        Core.Instance.Combat.ProcessHit(hit);
+        if (target.TryGetComponent(out IDamageable damageable))
+            damageable.TakeDamage(damage, null);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
+        {
             target = collision.gameObject;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f2feaac54af494b9bda61b2491a029, type: 3}
   m_Name: UpgradeDatabase
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDatabase
-  upgrades:
+  datas:
   - {fileID: 11400000, guid: 1499a32f40f997a49a9db59c1db3d1b3, type: 2}
   - {fileID: 11400000, guid: a8793ccc5fb91b64e9bdfc13f7ec15a5, type: 2}
   - {fileID: 11400000, guid: 73b5faded7e6f714a92207a566acacf9, type: 2}

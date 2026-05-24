@@ -12,32 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da799859326990c439a06efaabf8ea6a, type: 3}
   m_Name: Square
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  id: 1
+  id: 0
+  displayName: 
+  description: 123
   icon: {fileID: 7482667652216324306, guid: c115995158d8d4c4ca31e4fe659de873, type: 3}
   characterName: Square
-  description: 123
   stats:
     survival:
-      maxHP: 10
-      hpRegen: 1
-      armor: 1
-      dodgeChance: 10
+      maxHP: 15
+      hpRegen: 5
+      armor: 5
+      dodgeChance: 20
     movement:
-      moveSpeed: 1.5
+      moveSpeed: 1
       speedMultiplier: 1
     combat:
-      damage: 0
-      damageMultiplier: 0
-      attackInterval: 0
-      cooldownReduction: 0
-      critChance: 0
-      critDamage: 0
+      damage: 2
+      cooldownMultiplier: 0
+      critChance: 8
+      critDamageMultiplier: 0
+      knockbackForce: 0
     projectile:
-      projectileCount: 0
-      projectileSize: 0
+      projectileCount: 1
+      projectileSize: 1
+      projectileSpeed: 0
+      spreadAngle: 0
+      pierce: 0
+      duration: 0
+      range: 0
     utility:
-      pickupRadius: 1
-      luck: 0
-      expGain: 0
-      goldGain: 0
-  baseWeapon: {fileID: 11400000, guid: fb54c601b6bb5784b81fbdffeab854d3, type: 2}
+      pickupRadius: 2
+      luck: 1
+      expGain: 4
+      goldGain: 5
+      curse: 6
+  baseWeapon: {fileID: 11400000, guid: 6fbc2d8bba1e5fe4b96c4123f027c70f, type: 2}

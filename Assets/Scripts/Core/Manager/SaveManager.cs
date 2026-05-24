@@ -5,24 +5,23 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour, IManager
 {
-    private string path;
+    private string Path => Application.persistentDataPath + "/save.json";
 
     public void Init()
     {
-        path = Application.persistentDataPath + "/save.json";
-
     }
 
     public SaveData Load()
     {
-        if (!File.Exists(path))
+        if (!File.Exists(Path))
         {
             SaveData newData = CreateDefault();
             newData.progress.OnAfterLoad();
+            Debug.Log(Path);
             return newData;
         }
 
-        string json = File.ReadAllText(path);
+        string json = File.ReadAllText(Path);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
         data = Validate(data);
@@ -37,14 +36,13 @@ public class SaveManager : MonoBehaviour, IManager
         data.progress.OnBeforeSave();
 
         string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(path, json);
+        File.WriteAllText(Path, json);
     }
 
     private SaveData CreateDefault()
     {
         return new SaveData
         {
-            gold = 0,
             progress = new PlayerProgress(),
             unlocks = new UnlockData()
         };
@@ -66,6 +64,4 @@ public class SaveManager : MonoBehaviour, IManager
 
         return data;
     }
-
-
 }

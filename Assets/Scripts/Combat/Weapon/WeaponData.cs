@@ -1,32 +1,28 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-public enum WeaponCategory
+
+public enum WeaponType
 {
+    Projectile,
     Melee,
-    Ranged,
-    Magic,
-    Summon
+    Orbit
 }
 
 public abstract class WeaponData : ItemData
 {
-    public override ItemType Type => ItemType.Weapon;
+    [Header("Type")]
+    public WeaponType type;
 
-    [Header("Weapon")]
-    public Weapon weaponPrefab;
+    [Header("Projectile")]
+    public Projectile projectilePrefab;
 
-    [Header("Category")]
-    public WeaponCategory category;
+    [Header("Behaviour")]
+    public WeaponBehaviour behaviour;
 
     [Header("Levels")]
     public List<WeaponLevelData> levels = new();
 
     public int MaxLevel => levels.Count;
-
-    public override CharacterStats GetStats(int level)
-    {
-        return default;
-    }
 
     public WeaponLevelData GetLevelData(int level)
     {
@@ -35,4 +31,16 @@ public abstract class WeaponData : ItemData
 
         return levels[level - 1];
     }
+
+#if UNITY_EDITOR
+    protected override void OnValidate()
+    {
+        base.OnValidate();
+
+        if (ID < 2000 || ID >= 3000)
+        {
+            Debug.LogError($"{name}: Weapon ID는 2000~2999 범위");
+        }
+    }
+#endif
 }

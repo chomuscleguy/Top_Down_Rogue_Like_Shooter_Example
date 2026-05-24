@@ -1,42 +1,65 @@
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour, ITickable
+public class EnemyMovement : MonoBehaviour
 {
-    public Transform target;
+    [Header("Move")]
+    [SerializeField] private float speed = 3f;
 
-    private float speed;
+    [Header("Weights")]
+    [SerializeField] private float seekWeight = 1f;
+    [SerializeField] private float separationWeight = 2f;
 
-    private Vector2 knockbackVelocity;
+    [Header("Smoothing")]
+    [SerializeField] private float smooth = 10f;
 
-    public void Init(float speed, GameObject target)
+    private Transform target;
+    private Enemy enemy;
+
+    private Vector2 velocity;
+    private Vector2 knockback;
+
+    public void Init(float speed, Transform t)
     {
         this.speed = speed;
-        this.target = target.transform;
+        target = t;
+        enemy = GetComponent<Enemy>();
 
-        Core.Instance.Tick.Register(this);
+        Core.Instance.Grid.Register(enemy);
     }
 
-    public void Tick(float dt)
+    void FixedUpdate()
     {
-        if (target == null)
-            return;
+        if (target == null) return;
 
-        Vector2 dir = ((Vector2)target.position - (Vector2)transform.position).normalized;
+        Vector2 pos = transform.position;
 
-        Vector2 move = dir * speed + knockbackVelocity;
 
-        transform.position += (Vector3)(move * dt);
+        Vector2 seek = ((Vector2)target.position - pos).normalized;
 
-        knockbackVelocity = Vector2.Lerp(knockbackVelocity, Vector2.zero, 10f * dt);
+        Vector2 sep = Core.Instance.Grid.Separation(pos, enemy);
+
+
+        Vector2 dir =   seek * seekWeight +  sep * separationWeight;
+
+        dir = Vector2.ClampMagnitude(dir, 1f);
+
+
+        Vector2 desired = dir * speed + knockback;
+
+        velocity = Vector2.Lerp(velocity, desired, smooth * Time.fixedDeltaTime);
+
+        transform.position += (Vector3)(velocity * Time.fixedDeltaTime);
+
+
+        Core.Instance.Grid.UpdateEnemy(enemy);
+        Core.Instance.Grid.RelocateIfTooFar(enemy);
+
+
+        knockback = Vector2.Lerp(knockback, Vector2.zero, 8f * Time.fixedDeltaTime);
     }
 
-    public void ApplyKnockback(Vector2 direction, float force)
+    public void ApplyKnockback(Vector2 dir, float force)
     {
-        knockbackVelocity = direction.normalized * force;
-    }
-
-    private void OnDisable()
-    {
-        Core.Instance?.Tick.Unregister(this);
+        knockback += dir.normalized * force;
     }
 }

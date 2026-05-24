@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Core : MonoBehaviour
@@ -11,11 +12,15 @@ public class Core : MonoBehaviour
     public SaveManager Save { get; private set; }
     public DataManager Data { get; private set; }
     public DropManager Drop { get; private set; }
-    public OrbManager Orb { get; private set; }
+    public PickupManager Pickup { get; private set; }
+    public EnemyGridManager Grid { get; private set; }
 
     [Header("System")]
     public TickSystem Tick { get; private set; }
-    public CombatSystem Combat { get; private set; }
+
+    public GameObject ProjectileRoot;
+
+    private List<IManager> managers;
 
     public void Awake()
     {
@@ -26,23 +31,39 @@ public class Core : MonoBehaviour
         }
 
         Instance = this;
-
         DontDestroyOnLoad(gameObject);
     }
 
     public void Init()
     {
-        // Managers
         Game = GetComponentInChildren<GameManager>();
         Audio = GetComponentInChildren<AudioManager>();
         UI = GetComponentInChildren<UIManager>();
         Save = GetComponentInChildren<SaveManager>();
         Data = GetComponentInChildren<DataManager>();
         Drop = GetComponentInChildren<DropManager>();
-        Orb = GetComponentInChildren<OrbManager>();
-
-        // Systems
+        Pickup = GetComponentInChildren<PickupManager>();
+        Grid = GetComponentInChildren<EnemyGridManager>();
         Tick = GetComponentInChildren<TickSystem>();
-        Combat = GetComponentInChildren<CombatSystem>();
+
+        managers = new List<IManager>
+        {
+            Save,
+            Game,
+            Audio,
+            UI,
+            Data,
+            Drop,
+            Pickup,
+            Grid,
+            Tick,
+        };
+
+        foreach (var m in managers)
+        {
+            if (m == null)
+                continue;
+            m.Init();
+        }
     }
 }
